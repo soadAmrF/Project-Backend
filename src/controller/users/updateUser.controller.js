@@ -5,7 +5,7 @@ const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const { name, username, password, role, permissions, isActive } = req.body;
+    const { name, fullname, password, role, permissions, isActive } = req.body;
 
     const user = await User.findById(id).select("+password");
 
@@ -29,8 +29,8 @@ const updateUser = async (req, res) => {
       user.name = name;
     }
 
-    if (username !== undefined) {
-      user.username = username;
+    if (fullname !== undefined) {
+      user.fullname = fullname;
     }
 
     if (role !== undefined) {
@@ -57,7 +57,7 @@ const updateUser = async (req, res) => {
       user: {
         _id: user._id,
         name: user.name,
-        username: user.username,
+        fullname: user.fullname,
         role: user.role,
         permissions: user.permissions,
         isActive: user.isActive,

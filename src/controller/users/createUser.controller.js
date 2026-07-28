@@ -27,12 +27,12 @@ const createUser = async (req, res) => {
       });
     }
 
-    const existingUsername = await User.findOne({ username });
+    const existingfullname = await User.findOne({ fullname });
 
-    if (existingUsername) {
+    if (existingfullname) {
       return res.status(409).json({
         success: false,
-        message: "Username already exists",
+        message: "fullname already exists",
       });
     }
 
@@ -40,7 +40,7 @@ const createUser = async (req, res) => {
 
     const user = await User.create({
       name,
-      username,
+      fullname,
       password: hashedPassword,
       role,
       permissions,
@@ -53,7 +53,7 @@ const createUser = async (req, res) => {
       user: {
         id: user._id,
         name: user.name,
-        username: user.username,
+        fullname: user.fullname,
         role: user.role,
         permissions: user.permissions,
         isActive: user.isActive,
