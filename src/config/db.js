@@ -7,11 +7,11 @@ const connectedDB = () => {
     .connect(DB)
 
     .then(() => {
-      console.log("DB connected");
+      console.log("IAM connected to DB HAHAHAHHAHAH!");
     })
     
     .catch((err) => {
-      console.log("DB connection failed");
+      console.log("DB connection failed ME <sad>");
       console.log(err);
 
       process.exit(1);
