@@ -1,12 +1,12 @@
-const User = require("../models/user.model");
+const User = require("../../models/user.model");
 const bcrypt = require('bcrypt');
 var JWT = require('jsonwebtoken');
 
 const userLogin = async (req, res) => {
 
-    const {email, password} = req.body;
+    const {name, password} = req.body;
 
-    if(!email || !password) {
+    if(!name || !password) {
         return res.status(401).json({
             STATUS_CODE: 401,
             message: "All fields required!",
@@ -14,7 +14,7 @@ const userLogin = async (req, res) => {
         });
     };
 
-    const checkUser = await User.findOne({email});
+    const checkUser = await User.findOne({name});
 
     if(!checkUser) {
         return res.status(401).json({
@@ -38,20 +38,22 @@ const userLogin = async (req, res) => {
 
     const token = JWT.sign({
         name: checkUser.name,
-        email: checkUser.email,
         role: checkUser.role
     }, secret);
 
-    res.cookie("token", JWT, {
+    res.cookie("token", token, {
         domain: "localhost",
         path: "/",
         secure: true
     });
 
-    return res.status(201).json({
-        STATUS_CODE: 201,
+    return res.status(200).json({
+        STATUS_CODE: 200,
         message: "Login successful!",
-        data: null
+        data: {
+            token,
+            role: checkUser.role
+        },
     });
 
 };
