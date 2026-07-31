@@ -1,60 +1,111 @@
 const Doctor = require("../../models/doctor.model");
+const User = require("../../models/user.model");
 
 const createDoctor = async (req, res) => {
   try {
     const {
       userId,
-      specialtyId,
       experienceYears,
       bio,
-      phone,
       specialization,
+      degree,
+      fees,
+      workingDays,
+      workingHours,
       address,
     } = req.body;
 
     if (!userId) {
-      return res
-        .status(400)
-        .json({ success: false, message: "User ID is required" });
+      return res.status(400).json({
+        success: false,
+        message: "User ID is required",
+      });
     }
-    if (!specialtyId) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Specialty ID is required" });
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
     }
-    if (experienceYears === undefined || experienceYears === null) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Experience years is required" });
+
+    if (user.role !== "doctor") {
+      return res.status(400).json({
+        success: false,
+        message: "User role must be doctor",
+      });
     }
+
+    const existingDoctor = await Doctor.findOne({ userId });
+
+    if (existingDoctor) {
+      return res.status(409).json({
+        success: false,
+        message: "Doctor profile already exists for this user",
+      });
+    }
+
+    if (!experienceYears) {
+      return res.status(400).json({
+        success: false,
+        message: "Experience years is required",
+      });
+    }
+
     if (!bio) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Bio is required" });
+      return res.status(400).json({
+        success: false,
+        message: "Bio is required",
+      });
     }
-    if (!phone) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Phone is required" });
-    }
+
     if (!specialization) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Specialization is required" });
+      return res.status(400).json({
+        success: false,
+        message: "Specialization is required",
+      });
     }
+
+    if (!fees ) {
+      return res.status(400).json({
+        success: false,
+        message: "Fees is required",
+      });
+    }
+
+    if (!workingDays )
+    {
+      return res.status(400).json({
+        success: false,
+        message: "Working days are required",
+      });
+    }
+
+    if (!workingHours || !workingHours.start || !workingHours.end) {
+      return res.status(400).json({
+        success: false,
+        message: "Working hours are required",
+      });
+    }
+
     if (!address) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Address is required" });
+      return res.status(400).json({
+        success: false,
+        message: "Address is required",
+      });
     }
 
     const doctor = await Doctor.create({
       userId,
-      specialtyId,
       experienceYears,
       bio,
-      phone,
       specialization,
+      degree,
+      fees,
+      workingDays,
+      workingHours,
       address,
     });
 
@@ -64,12 +115,14 @@ const createDoctor = async (req, res) => {
       data: doctor,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Server Error", error: error.message });
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+      error: error.message,
+    });
   }
 };
 
 module.exports = {
-  createDoctor
-}
+  createDoctor,
+};

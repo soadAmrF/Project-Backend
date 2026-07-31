@@ -5,7 +5,6 @@ const {
   createDoctor,
 } = require("../controller/doctors/createDoctor.controller");
 
-const { deleteDoctor } = require("../controller/doctors/deleteDoctor.controller");
 
 const { getAllDoctors } = require("../controller/doctors/getAllDoctors.controller");
 
@@ -18,6 +17,5 @@ router.get("/:id", getDoctorById);
 router.post("/", createDoctor);
 router.put("/:id", updateDoctor);
 
-router.delete("/:id", deleteDoctor);
 
 module.exports = router;

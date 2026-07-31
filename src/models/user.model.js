@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    name: {
+    fullname: {
       type: String,
       required: true,
       unique: true,
       trim: true,
     },
-    fullname: {
+    name: {
       type: String,
       required: true,
       trim: true,
@@ -18,25 +18,21 @@ const userSchema = new mongoose.Schema(
       required: true,
       select: false,
     },
+    phone: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    image: {
+      type: String,
+    },
     role: {
       type: String,
       required: true,
-      enum: ["admin", "employee"],
-      default: "employee",
+      enum: ["admin", "receptionist", "doctor"],
+      default: "receptionist",
     },
 
-    permissions: {
-      type: [String],
-      default: [
-        "dashboard.view",
-
-        "users.view",
-        "users.create",
-        "users.update",
-        "users.delete",
-
-      ],
-    },
     isActive: {
       type: Boolean,
       default: true,

@@ -15,7 +15,7 @@ const checkAdmin = require("../middleware/checkAdmin");
 
 const checkToken = require("../middleware/checkToken");
 
-router.get("/", getAllUsers);
+router.get("/",getAllUsers);
 router.get("/:id", getUserById);
 router.post("/", checkToken, checkAdmin, createUser);
 router.put("/:id", checkToken, checkAdmin, updateUser);
