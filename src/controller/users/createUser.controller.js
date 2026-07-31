@@ -7,32 +7,37 @@ const createUser = async (req, res) => {
       name,
       fullname,
       password,
-      role = "employee",
-      permissions = [],
+      phone,
+      role = "receptionist",
+      image,
     } = req.body;
 
-    if (!name || !fullname || !password) {
+    if (!name)
       return res.status(400).json({
         success: false,
-        message: "Please provide all required fields",
+        message: "Please provide name",
       });
-    }
+      if (!fullname)
+      return res.status(400).json({
+        success: false,
+        message: "Please provide fullname",
+      });
+      if (!phone)
+        return res.status(400).json({
+          success: false,
+          message: "Please provide phone",
+        });
+    const existingUser = await User.findOne({
+      $or: [{ name },{phone}],
+    });
 
-    const existingName = await User.findOne({ name });
-
-    if (existingName) {
+    if (existingUser) {
       return res.status(409).json({
         success: false,
-        message: "Name already exists",
-      });
-    }
-
-    const existingfullname = await User.findOne({ fullname });
-
-    if (existingfullname) {
-      return res.status(409).json({
-        success: false,
-        message: "fullname already exists",
+        message:
+          existingUser.name === name
+            ? "Name already exists"
+            : "Phone number already exists",
       });
     }
 
@@ -42,8 +47,9 @@ const createUser = async (req, res) => {
       name,
       fullname,
       password: hashedPassword,
+      phone,
       role,
-      permissions,
+      image,
       isActive: true,
     });
 
@@ -54,8 +60,8 @@ const createUser = async (req, res) => {
         id: user._id,
         name: user.name,
         fullname: user.fullname,
+        phone: user.phone,
         role: user.role,
-        permissions: user.permissions,
         isActive: user.isActive,
         createdAt: user.createdAt,
       },
@@ -68,6 +74,4 @@ const createUser = async (req, res) => {
   }
 };
 
-module.exports = {
-  createUser
-};
+module.exports = { createUser };
