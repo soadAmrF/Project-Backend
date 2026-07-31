@@ -6,8 +6,11 @@ const doctorRoutes = require('./doctor.routes');
 
 
 
+
 router.use('/users', userRoutes);
 router.use('/doctors', doctorRoutes);
 module.exports = router;
  
  
+
+module.exports = router;

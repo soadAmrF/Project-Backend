@@ -10,7 +10,9 @@ const { getAllUsers } = require("../controller/users/getAllUsers.controller");
 const { getUserById } = require("../controller/users/getUserById.controller");
 
 const { updateUser } = require("../controller/users/updateUser.controller");
-const checkAdmin = require("../middleware/checkRole");
+
+const checkAdmin = require("../middleware/checkAdmin");
+
 const checkToken = require("../middleware/checkToken");
 
 router.get("/",getAllUsers);

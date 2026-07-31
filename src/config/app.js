@@ -14,13 +14,13 @@ app.use(
 app.use(express.json());
 
 
-app.get("/", (req, res) => {
+app.use("/api/v1/", router);
+
+app.get("/api/v1/", (req, res) => {
   res.json({
     message: "U connect can u catch all API endpoints?????",
   });
 });
-
-app.use("/api/v1", router);
 
 app.use((req, res) => {
   res.status(404).json({
