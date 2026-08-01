@@ -1,8 +1,7 @@
-const responseToFront = (status_code,message,data)=>{
+const responseToFront = (success,message)=>{
     return{
-        status_code,
+        success,
         message,
-        data,
     };
 };
 
