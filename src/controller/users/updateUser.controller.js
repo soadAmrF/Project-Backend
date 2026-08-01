@@ -5,7 +5,7 @@ const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const { name, fullname, password, role, permissions, isActive } = req.body;
+    const { name, fullname, phone, password, role, isActive } = req.body;
 
     const user = await User.findById(id).select("+password");
 
@@ -33,12 +33,21 @@ const updateUser = async (req, res) => {
       user.fullname = fullname;
     }
 
-    if (role !== undefined) {
-      user.role = role;
+    if (phone && phone !== user.phone) {
+      const existingPhone = await User.findOne({ phone });
+
+      if (existingPhone) {
+        return res.status(409).json({
+          success: false,
+          message: "Phone number already exists",
+        });
+      }
+
+      user.phone = phone;
     }
 
-    if (permissions !== undefined) {
-      user.permissions = permissions;
+    if (role !== undefined) {
+      user.role = role;
     }
 
     if (isActive !== undefined) {
@@ -58,8 +67,8 @@ const updateUser = async (req, res) => {
         _id: user._id,
         name: user.name,
         fullname: user.fullname,
+        phone: user.phone,
         role: user.role,
-        permissions: user.permissions,
         isActive: user.isActive,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
@@ -76,5 +85,5 @@ const updateUser = async (req, res) => {
 };
 
 module.exports = {
-  updateUser
+  updateUser,
 };

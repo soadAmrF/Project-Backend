@@ -10,7 +10,6 @@ router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/doctors', doctorRoutes);
 router.use('/auth', authRoutes);
-module.exports = router;
  
  
 

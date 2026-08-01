@@ -18,8 +18,7 @@ const updateDoctor = async (req, res) => {
       new: true,
       runValidators: true,
     })
-      .populate("userId", "name")
-      .populate("specialtyId", "name");
+      .populate("userId", "name");
 
     if (!doctor) {
       return res
