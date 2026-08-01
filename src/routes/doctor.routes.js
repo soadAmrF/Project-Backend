@@ -11,7 +11,8 @@ const { getAllDoctors } = require("../controller/doctors/getAllDoctors.controlle
 const { getDoctorById } = require("../controller/doctors/getDoctorById.controller");
 
 const { updateDoctor } = require("../controller/doctors/updateDoctor.controller");
-
+const checkAdmin = require("../middleware/checkAdmin");
+const checkToken = require("../middleware/checkToken");
 router.get("/", getAllDoctors);
 router.get("/:id", getDoctorById);
 router.post("/", createDoctor);
