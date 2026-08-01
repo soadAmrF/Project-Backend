@@ -11,7 +11,6 @@ const authRoutes = require('./auth.routes');
 router.use('/users', userRoutes);
 router.use('/doctors', doctorRoutes);
 router.use('/auth', authRoutes);
-module.exports = router;
  
  
 
