@@ -3,32 +3,26 @@ const bcrypt = require("bcrypt");
 
 const createUser = async (req, res) => {
   try {
-    const {
-      name,
-      fullname,
-      password,
-      phone,
-      role = "receptionist",
-      image,
-    } = req.body;
+    const { name, fullname, password, phone, role = "receptionist" } = req.body;
 
     if (!name)
       return res.status(400).json({
         success: false,
         message: "Please provide name",
       });
-      if (!fullname)
+    if (!fullname)
       return res.status(400).json({
         success: false,
         message: "Please provide fullname",
       });
-      if (!phone)
-        return res.status(400).json({
-          success: false,
-          message: "Please provide phone",
-        });
+    if (!phone)
+      return res.status(400).json({
+        success: false,
+        message: "Please provide phone",
+      });
+
     const existingUser = await User.findOne({
-      $or: [{ name },{phone}],
+      $or: [{ name }, { phone }],
     });
 
     if (existingUser) {
@@ -43,13 +37,18 @@ const createUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    let imageUrl = "";
+    if (req.file) {
+      imageUrl = req.file.path;
+    }
+
     const user = await User.create({
       name,
       fullname,
       password: hashedPassword,
       phone,
       role,
-      image,
+      image: imageUrl,
       isActive: true,
     });
 
@@ -62,6 +61,7 @@ const createUser = async (req, res) => {
         fullname: user.fullname,
         phone: user.phone,
         role: user.role,
+        image: user.image,
         isActive: user.isActive,
         createdAt: user.createdAt,
       },
