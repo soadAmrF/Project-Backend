@@ -3,12 +3,7 @@ const Doctor = require("../../models/doctor.model");
 const getAllDoctors = async (req, res) => {
   try {
     const doctors = await Doctor.find()
-      .populate("userId", "name phone");
-<<<<<<< HEAD
-      //.populate("specialtyId", "name");
-=======
->>>>>>> 03b461e4e0204498f2f8f0dc651a28573d1747fa
-      
+      .populate("userId", "name phone");      
 
     res
       .status(200)
