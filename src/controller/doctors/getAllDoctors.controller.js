@@ -4,7 +4,7 @@ const getAllDoctors = async (req, res) => {
   try {
     const doctors = await Doctor.find()
       .populate("userId", "name phone")
-      .populate("specialtyId", "name");
+      //.populate("specialtyId", "name");
       
 
     res

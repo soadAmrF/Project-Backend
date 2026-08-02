@@ -5,8 +5,8 @@ const getDoctorById = async (req, res) => {
     const { id } = req.params;
 
     const doctor = await Doctor.findById(id)
-      .populate("userId", "name phone")
-      .populate("specialtyId", "name");
+      .populate("userId", "name phone");
+      //.populate("specialtyId", "name");
 
     if (!doctor) {
       return res
