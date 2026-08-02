@@ -10,8 +10,8 @@ const checkAdmin = require("../middleware/checkAdmin");
 const checkToken = require("../middleware/checkToken");
 const { uploadUserImage } = require("../config/cloudinary");
 
-router.get("/", getAllUsers);
-router.get("/:id", getUserById);
+router.get("/", checkToken, checkAdmin, getAllUsers);
+router.get("/:id",checkToken, checkAdmin, getUserById);
 router.post(
   "/",
   checkToken,

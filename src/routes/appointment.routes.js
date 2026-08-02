@@ -5,8 +5,11 @@ const setAppointment = require("../controller/appointment/setAppointment.control
 const getAllAppointments = require("../controller/appointment/getAppointment.controller");
 const editAppointment = require("../controller/appointment/editAppointment.controller");
 
-router.post("/", setAppointment);
-router.get("/", getAllAppointments);
-router.patch("/:id", editAppointment);
+const checkToken = require("../middleware/checkToken");
+const checkReceptionist = require("../middleware/checkReceptionist");
+
+router.post("/", checkToken, checkReceptionist, setAppointment);
+router.get("/", checkToken, getAllAppointments);  // doctor also can view his/her appointments
+router.patch("/:id", checkToken, checkReceptionist, editAppointment);
 
 module.exports = router;
