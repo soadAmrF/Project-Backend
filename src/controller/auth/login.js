@@ -14,7 +14,7 @@ const userLogin = async (req, res) => {
   }
 
   const checkUser = await User.findOne({ name }).select(
-    "+password fullname phone image isActive createdAt",
+    "+password",
   );
 
   if (!checkUser) {
@@ -36,6 +36,11 @@ const userLogin = async (req, res) => {
   }
 
   const secret = process.env.JWT_SECRET;
+
+  console.log(checkUser.toObject());
+console.log("name =", checkUser.name);
+console.log("role =", checkUser.role);
+console.log("image =", checkUser.image);
 
   const token = JWT.sign(
     {

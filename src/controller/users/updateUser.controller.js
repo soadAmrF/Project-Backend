@@ -58,6 +58,10 @@ const updateUser = async (req, res) => {
       user.password = await bcrypt.hash(password, 10);
     }
 
+    if (req.file) {
+      user.image = req.file.path;
+    }
+
     await user.save();
 
     return res.status(200).json({
