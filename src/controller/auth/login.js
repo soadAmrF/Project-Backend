@@ -13,7 +13,9 @@ const userLogin = async (req, res) => {
     });
   }
 
-  const checkUser = await User.findOne({ name }).select("+password");
+  const checkUser = await User.findOne({ name }).select(
+    "+password fullname phone image isActive createdAt",
+  );
 
   if (!checkUser) {
     return res.status(401).json({
@@ -39,7 +41,12 @@ const userLogin = async (req, res) => {
     {
       id: checkUser._id,
       name: checkUser.name,
+      fullname: checkUser.fullname,
+      phone: checkUser.phone,
       role: checkUser.role,
+      image: checkUser.image,
+      isActive: checkUser.isActive,
+      createdAt: checkUser.createdAt,
     },
     secret,
   );
