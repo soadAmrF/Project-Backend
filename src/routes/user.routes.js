@@ -19,7 +19,7 @@ router.post(
   uploadUserImage.single("image"),
   createUser,
 );
-router.put("/:id", checkToken, checkAdmin, updateUser);
+router.put("/:id", checkToken, checkAdmin, uploadUserImage.single("image"), updateUser);
 router.delete("/:id", checkToken, checkAdmin, deleteUser);
 
 module.exports = router;

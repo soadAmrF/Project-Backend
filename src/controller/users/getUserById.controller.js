@@ -6,7 +6,7 @@ const getUserById = async (req, res) => {
     const users = await User.findById(id).select("-password");
 
 
-    if (!user) {
+    if (!users) {
       return res.status(404).json({
         success: false,
         message: "User not found",
