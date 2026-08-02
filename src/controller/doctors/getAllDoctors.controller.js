@@ -3,7 +3,7 @@ const Doctor = require("../../models/doctor.model");
 const getAllDoctors = async (req, res) => {
   try {
     const doctors = await Doctor.find()
-      .populate("userId", "name phone")
+      .populate("userId", "name phone");
       //.populate("specialtyId", "name");
       
 
