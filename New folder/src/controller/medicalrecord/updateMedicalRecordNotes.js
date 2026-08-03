@@ -3,7 +3,7 @@ const MedicalRecord = require("../../models/medicalRecord.model");
 const updateMedicalRecordNotes = async (req, res) => {
   try {
     const { id } = req.params;
-    const { notes, treatmentPlan, prescription } = req.body; 
+    const { notes } = req.body;
 
     const medicalRecord = await MedicalRecord.findById(id);
     if (!medicalRecord) {
@@ -12,10 +12,6 @@ const updateMedicalRecordNotes = async (req, res) => {
         .json({ success: false, message: "Medical record not found" });
     }
 
-    if (notes !== undefined) medicalRecord.notes = notes;
-    if (treatmentPlan !== undefined)
-      medicalRecord.treatmentPlan = treatmentPlan;
-    if (prescription !== undefined) medicalRecord.prescription = prescription;
 
     await medicalRecord.save();
 

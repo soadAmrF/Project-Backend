@@ -5,13 +5,13 @@ const getMedicalRecord = async (req, res) => {
     const { id } = req.params;
 
     const medicalRecord = await MedicalRecord.findById(id)
-      .populate("patientId", "fullName phone")
+      .populate("patientId", "fullname phone")
       .populate({
         path: "doctorId",
         select: "specialization",
-        populate: { path: "userId", select: "fullName" },
+        populate: { path: "userId", select: "fullname" },
       })
-      .populate("appointmentId", "dateAndTime status"); 
+      .populate("appointmentId", "date time");
 
     if (!medicalRecord || medicalRecord.isDeleted) {
       return res

@@ -1,5 +1,5 @@
 const MedicalRecord = require("../../models/medicalRecord.model");
-const Patient = require("../../models/patient.model"); 
+// const Patient = require("../../models/patient.model");
 
 const getPatientMedicalRecords = async (req, res) => {
   try {
@@ -12,14 +12,14 @@ const getPatientMedicalRecords = async (req, res) => {
         .json({ success: false, message: "Patient not found" });
     }
 
-    const records = await MedicalRecord.find({ patientId, isDeleted: false }) 
+    const records = await MedicalRecord.find({ patientId})
       .populate({
         path: "doctorId",
         select: "specialization",
-        populate: { path: "userId", select: "fullName" },
+        populate: { path: "userId", select: "fullname" },
       })
-      .populate("appointmentId", "dateAndTime status") 
-      .sort({ createdAt: -1 });
+      .populate("appointmentId", "date time")
+      
 
     res
       .status(200)
