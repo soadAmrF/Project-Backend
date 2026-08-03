@@ -4,7 +4,7 @@ const patientSchema = new mongoose.Schema({
         fullName: {
             type: String,
             required: true,
-            minLength: 10,
+            
             maxLength: 30
         },
         gender: {
