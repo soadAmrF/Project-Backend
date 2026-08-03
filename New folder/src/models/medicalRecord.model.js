@@ -20,46 +20,16 @@ const medicalRecordSchema = new mongoose.Schema(
     chiefComplaint: {
       type: String,
       required: true,
-      maxLength: 500,
     },
     diagnosis: {
       type: String,
       required: true,
-      maxLength: 500,
     },
-
-    
-    prescription: [
-      {
-        medicineName: {
-          type: String,
-          required: true,
-          trim: true,
-        },
-        dosage: {
-          type: String,
-          required: true,
-          trim: true, 
-        },
-        duration: {
-          type: String,
-          required: true,
-          trim: true, 
-        },
-        instructions: {
-          type: String,
-          trim: true,
-        },
-      },
-    ],
-
     treatmentPlan: {
       type: String,
-      maxLength: 1000,
     },
     notes: {
       type: String,
-      maxLength: 1000,
     },
     nextVisit: {
       type: Date,
@@ -73,7 +43,5 @@ const medicalRecordSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
-
-medicalRecordSchema.index({ patientId: 1, createdAt: -1 });
 
 module.exports = mongoose.model("MedicalRecord", medicalRecordSchema);
