@@ -8,12 +8,12 @@ const updateMedicalRecordNotes = require("../controller/medicalRecord/updateMedi
 const deleteMedicalRecord = require("../controller/medicalRecord/deleteMedicalRecord");
 
 const checkToken = require("../middleware/checkToken");
-const checkDoctor = require("../middleware/checkDoctor");
+const checkRole = require("../middleware/checkRole");
 
-router.post("/", checkToken, checkDoctor, createMedicalRecord);
-router.get("/:id", checkToken, checkDoctor, getMedicalRecord);
-router.get("/pama/:id", checkToken,checkDoctor, getPatientMedicalRecords);
-router.patch("/:id", checkToken, checkDoctor, updateMedicalRecordNotes);
-router.delete("/:id", checkToken, checkDoctor, deleteMedicalRecord);
+router.post("/", checkToken, checkRole("admin"), createMedicalRecord);
+router.get("/:id", checkToken, checkRole("admin"), getMedicalRecord);
+router.get("/pama/:id", checkToken,checkRole("admin"), getPatientMedicalRecords);
+router.patch("/:id", checkToken, checkRole("admin"), updateMedicalRecordNotes);
+router.delete("/:id", checkToken, checkRole("admin"), deleteMedicalRecord);
 
 module.exports = router;

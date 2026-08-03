@@ -6,10 +6,10 @@ const getAllAppointments = require("../controller/appointment/getAppointment.con
 const editAppointment = require("../controller/appointment/editAppointment.controller");
 
 const checkToken = require("../middleware/checkToken");
-const checkReceptionist = require("../middleware/checkReceptionist");
+const checkRole = require("../middleware/checkRole");
 
-router.post("/", checkToken, checkReceptionist, setAppointment);
-router.get("/", checkToken, getAllAppointments);  // doctor also can view his/her appointments
-router.patch("/:id", checkToken, checkReceptionist, editAppointment);
+router.post("/", checkToken, checkRole("admin"), setAppointment);
+router.get("/", checkToken, getAllAppointments);  
+router.patch("/:id", checkToken, checkRole("admin"), editAppointment);
 
 module.exports = router;

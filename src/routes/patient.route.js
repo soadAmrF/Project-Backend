@@ -7,13 +7,13 @@ const addPatient = require("../controller/patient/addPatient.controller");
 const editPatient = require("../controller/patient/editPatient.controller");
 
 const checkToken = require("../middleware/checkToken");
-const checkReceptionist = require("../middleware/checkReceptionist");
+const checkRole = require("../middleware/checkRole");
 
 
 router.get("/", checkToken, getAllPatients);
 router.get("/:id", checkToken, getPatientById);
-router.post("/", checkToken, checkReceptionist, addPatient);
-router.put("/:id", checkToken, checkReceptionist, editPatient);
+router.post("/", checkToken, checkRole("admin"), addPatient);
+router.put("/:id", checkToken, checkRole("admin"), editPatient);
 
 
 module.exports = router;

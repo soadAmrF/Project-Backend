@@ -12,13 +12,13 @@ const { getDoctorById } = require("../controller/doctors/getDoctorById.controlle
 
 const { updateDoctor } = require("../controller/doctors/updateDoctor.controller");
 
-const checkAdmin = require("../middleware/checkAdmin");
+const checkRole = require("../middleware/checkRole");
 const checkToken = require("../middleware/checkToken");
 
-router.get("/", checkToken, checkAdmin, getAllDoctors);
+router.get("/", checkToken, checkRole("admin"), getAllDoctors);
 router.get("/:id", checkToken, getDoctorById);
-router.post("/", checkToken, checkAdmin, createDoctor);
-router.put("/:id", checkToken, checkAdmin, updateDoctor);
+router.post("/", checkToken, checkRole("admin"), createDoctor);
+router.put("/:id", checkToken, checkRole("admin"), updateDoctor);
 
 
 module.exports = router;

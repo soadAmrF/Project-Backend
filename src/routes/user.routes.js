@@ -6,20 +6,22 @@ const { deleteUser } = require("../controller/users/deleteuser.controller");
 const { getAllUsers } = require("../controller/users/getAllUsers.controller");
 const { getUserById } = require("../controller/users/getUserById.controller");
 const { updateUser } = require("../controller/users/updateUser.controller");
-const checkAdmin = require("../middleware/checkAdmin");
-const checkToken = require("../middleware/checkToken");
 const { uploadUserImage } = require("../config/cloudinary");
 
-router.get("/", checkToken, checkAdmin, getAllUsers);
-router.get("/:id",checkToken, checkAdmin, getUserById);
+const checkRole = require("../middleware/checkRole");
+const checkToken = require("../middleware/checkToken");
+
+
+router.get("/", checkToken, checkRole("admin"), getAllUsers);
+router.get("/:id",checkToken, checkRole("admin"), getUserById);
 router.post(
   "/",
   checkToken,
-  checkAdmin,
+  checkRole("admin"),
   uploadUserImage.single("image"),
   createUser,
 );
-router.put("/:id", checkToken, checkAdmin, uploadUserImage.single("image"), updateUser);
-router.delete("/:id", checkToken, checkAdmin, deleteUser);
+router.put("/:id", checkToken, checkRole("admin"), uploadUserImage.single("image"), updateUser);
+router.delete("/:id", checkToken, checkRole("admin"), deleteUser);
 
 module.exports = router;
