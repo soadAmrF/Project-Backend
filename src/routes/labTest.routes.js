@@ -7,10 +7,13 @@ const getLabTestById = require("../controller/labTest/getLabTestById.controller"
 const updateLabTest = require("../controller/labTest/updateLabTest.controller");
 const deleteLabTest = require("../controller/labTest/deleteLabTest.controller");
 
-router.post("/", createLabTest);
-router.get("/", getAllLabTests);
-router.get("/:id", getLabTestById);
-router.put("/:id", updateLabTest);
-router.delete("/:id", deleteLabTest);
+const checkRole = require("../middleware/checkRole");
+const checkToken = require("../middleware/checkToken");
+
+router.get("/", checkToken, getAllLabTests);
+router.get("/:id", checkToken, getLabTestById);
+router.post("/", checkToken, checkRole("admin"), createLabTest);
+router.put("/:id", checkToken, checkRole("admin"), updateLabTest);
+router.delete("/:id", checkToken, checkRole("admin"), deleteLabTest);
 
 module.exports = router;

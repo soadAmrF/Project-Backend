@@ -9,9 +9,15 @@ const patientRoutes = require('./patient.route');
 const appointmentRoutes = require('./appointment.routes');
 const labOrderRoutes = require('./labOrder.routes');
 const labTestRoutes = require('./labTest.routes');
+const inventoryRoutes = require('./inventory.routes');
+const inventoryTransactionRoutes = require("./inventoryTransaction.routes");
+const clinicInfoRoutes = require("./clinicInfo.routes");
 
-router.use('/labTest', labTestRoutes);
-router.use('/labOrder', labOrderRoutes);
+router.use("/clinic-info", clinicInfoRoutes);
+router.use("/inventory-transactions", inventoryTransactionRoutes);
+router.use('/inventory', inventoryRoutes);
+router.use("/lab-tests", labTestRoutes);
+router.use("/lab-orders", labOrderRoutes);
 router.use('/medicalrecord', medicalRecordRoutes);
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);

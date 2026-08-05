@@ -2,42 +2,40 @@ const LabTest = require("../../models/labTest.model");
 
 const createLabTest = async (req, res) => {
   try {
-    const { name, code, category, price, normalRange, unit } = req.body;
+    const {
+      name,
+      code,
+      category,
+      price,
+      normalRange,
+      unit,
+      preparationInstructions,
+      requiredSupplies,
+      isActive,
+    } = req.body;
 
-    if (!name) {
-      return res.status(400).json({
-        success: false,
-        message: "Name is required",
-      });
-    }
-    
-    if (!code) {
-        return res.status(400).json({
-            success: false,
-            message: "Code is required",
-        });
-    }
-    if (!category) {
-        return res.status(400).json({
-            success: false,
-            message: "Category is required",
-        });
-    }
-    if (!price) {
-        return res.status(400).json({
-            success: false,
-            message: "Price is required",
-        });
-    }
+   if (!name) {
+     throw new Error("Name is required");
+   }
 
-    const existingTest = await LabTest.findOne({
+   if (!code) {
+     throw new Error("Code is required");
+   }
+
+   if (!category) {
+     throw new Error("Category is required");
+   }
+
+   if (price === undefined) {
+     throw new Error("Price is required");
+   }
+
+    const existing = await LabTest.findOne({
       $or: [{ name }, { code }],
     });
-    if (existingTest) {
-      return res.status(400).json({
-        success: false,
-        message: "Lab test with this name or code already exists",
-      });
+
+    if (existing) {
+      throw new Error("Lab test with this name or code already exists");
     }
 
     const labTest = await LabTest.create({
@@ -47,17 +45,20 @@ const createLabTest = async (req, res) => {
       price,
       normalRange,
       unit,
+      preparationInstructions,
+      requiredSupplies: requiredSupplies || [],
+      isActive: isActive !== undefined ? isActive : true,
     });
 
-    res.status(201).json({
-      success: true,
-      message: "Lab test created successfully",
+    return res.status(201).json({
+      status: "success",
       data: labTest,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Server Error", error: error.message });
+    return res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
   }
 };
 

@@ -14,10 +14,11 @@ const labTestSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
+    
     category: {
       type: String,
       required: true,
-      enum: ["blood", "urine", "stool", "hormones", "imaging", "other"],
+      trim: true,
     },
     price: {
       type: Number,
@@ -30,6 +31,26 @@ const labTestSchema = new mongoose.Schema(
     unit: {
       type: String,
     },
+    
+    preparationInstructions: {
+      type: String,
+      trim: true,
+    },
+    
+    requiredSupplies: [
+      {
+        inventoryItemId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Inventory",
+          required: true,
+        },
+        quantityNeeded: {
+          type: Number,
+          required: true,
+          min: 0.01, 
+        },
+      },
+    ],
     isActive: {
       type: Boolean,
       default: true,

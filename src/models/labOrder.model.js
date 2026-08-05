@@ -17,6 +17,10 @@ const labOrderSchema = new mongoose.Schema(
       ref: "MedicalRecord",
       required: true,
     },
+    technicianId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     tests: [
       {
         labTestId: {
@@ -46,7 +50,7 @@ const labOrderSchema = new mongoose.Schema(
     },
     orderStatus: {
       type: String,
-      enum: ["pending", "completed", "cancelled"],
+      enum: ["pending", "in-progress", "completed", "cancelled"],
       default: "pending",
     },
     doctorNotes: {
@@ -57,5 +61,6 @@ const labOrderSchema = new mongoose.Schema(
 );
 
 labOrderSchema.index({ patientId: 1, createdAt: -1 });
+labOrderSchema.index({ doctorId: 1, createdAt: -1 });
 
 module.exports = mongoose.model("LabOrder", labOrderSchema);

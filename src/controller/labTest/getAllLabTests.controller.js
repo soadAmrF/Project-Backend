@@ -2,11 +2,11 @@ const LabTest = require("../../models/labTest.model");
 
 const getAllLabTests = async (req, res) => {
   try {
-    const { category, search } = req.query;
-
-    const filter = { isActive: true };
+    const { category, search, activeOnly } = req.query;
+    const filter = {};
 
     if (category) filter.category = category;
+    if (activeOnly === "true") filter.isActive = true;
     if (search) {
       filter.$or = [
         { name: { $regex: search, $options: "i" } },
@@ -14,17 +14,20 @@ const getAllLabTests = async (req, res) => {
       ];
     }
 
-    const labTests = await LabTest.find(filter).sort({ name: 1 });
+    const tests = await LabTest.find(filter)
+      .populate("requiredSupplies.inventoryItemId", "name unit")
+      .sort({ name: 1 });
 
-    res.status(200).json({
-      success: true,
-      count: labTests.length,
-      data: labTests,
+    return res.status(200).json({
+      status: "success",
+      count: tests.length,
+      data: tests,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Server Error", error: error.message });
+    return res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
   }
 };
 
