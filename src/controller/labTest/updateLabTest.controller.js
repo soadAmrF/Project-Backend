@@ -1,57 +1,44 @@
+const mongoose = require("mongoose");
 const LabTest = require("../../models/labTest.model");
 
 const updateLabTest = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, code, category, price, normalRange, unit, isActive } =
-      req.body;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ status: "fail", message: "Invalid id" });
+    }
 
-    const labTest = await LabTest.findById(id);
-    if (!labTest) {
+    const allowedFields = [
+      "name",
+      "code",
+      "category",
+      "price",
+      "normalRange",
+      "unit",
+      "preparationInstructions",
+      "requiredSupplies",
+      "isActive",
+    ];
+
+    const updates = {};
+    allowedFields.forEach((field) => {
+      if (req.body[field] !== undefined) updates[field] = req.body[field];
+    });
+
+    const test = await LabTest.findByIdAndUpdate(id, updates, {
+      new: true,
+      runValidators: true,
+    }).populate("requiredSupplies.inventoryItemId", "name unit");
+
+    if (!test) {
       return res
         .status(404)
-        .json({ success: false, message: "Lab test not found" });
+        .json({ status: "fail", message: "Lab test not found" });
     }
 
-    if (name && name !== labTest.name) {
-      const existing = await LabTest.findOne({ name });
-      if (existing) {
-        return res.status(400).json({
-          success: false,
-          message: "Lab test with this name already exists",
-        });
-      }
-      labTest.name = name;
-    }
-
-    if (code && code !== labTest.code) {
-      const existing = await LabTest.findOne({ code });
-      if (existing) {
-        return res.status(400).json({
-          success: false,
-          message: "Lab test with this code already exists",
-        });
-      }
-      labTest.code = code;
-    }
-
-    if (category !== undefined) labTest.category = category;
-    if (price !== undefined) labTest.price = price;
-    if (normalRange !== undefined) labTest.normalRange = normalRange;
-    if (unit !== undefined) labTest.unit = unit;
-    if (isActive !== undefined) labTest.isActive = isActive;
-
-    await labTest.save();
-
-    res.status(200).json({
-      success: true,
-      message: "Lab test updated successfully",
-      data: labTest,
-    });
+    return res.status(200).json({ status: "success", data: test });
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Server Error", error: error.message });
+    return res.status(400).json({ status: "fail", message: error.message });
   }
 };
 
