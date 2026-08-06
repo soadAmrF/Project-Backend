@@ -3,7 +3,7 @@ const Appointment = require('../../models/appointment.model');
 const editAppointment = async (req, res) => {
     try{
         const appointmentId = req.params.id;
-        const {dateAndTime, status} = req.body;
+        const { doctorId, dateAndTime, status } = req.body;
 
         const appointment = await Appointment.findById(appointmentId);
 
@@ -16,7 +16,8 @@ const editAppointment = async (req, res) => {
 
         if (dateAndTime) {
             const checkAppointment = await Appointment.findOne({
-                doctorId: appointment.doctorId,
+                // doctorId: appointment.doctorId,
+                doctorId: doctorId || appointment.doctorId,
                 dateAndTime,
                 _id: { $ne: appointmentId },
             });
