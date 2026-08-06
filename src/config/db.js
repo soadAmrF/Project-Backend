@@ -9,7 +9,7 @@ const connectedDB = () => {
     .then(() => {
       console.log("IAM connected to DB HAHAHAHHAHAH!");
     })
-    
+
     .catch((err) => {
       console.log("DB connection failed ME <sad>");
       console.log(err);

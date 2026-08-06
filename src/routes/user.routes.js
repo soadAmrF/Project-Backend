@@ -11,9 +11,8 @@ const { uploadUserImage } = require("../config/cloudinary");
 const checkRole = require("../middleware/checkRole");
 const checkToken = require("../middleware/checkToken");
 
-
 router.get("/", checkToken, checkRole("admin"), getAllUsers);
-router.get("/:id",checkToken, checkRole("admin"), getUserById);
+router.get("/:id", checkToken, checkRole("admin"), getUserById);
 router.post(
   "/",
   checkToken,
@@ -21,7 +20,13 @@ router.post(
   uploadUserImage.single("image"),
   createUser,
 );
-router.put("/:id", checkToken, checkRole("admin"), uploadUserImage.single("image"), updateUser);
+router.put(
+  "/:id",
+  checkToken,
+  checkRole("admin"),
+  uploadUserImage.single("image"),
+  updateUser,
+);
 router.delete("/:id", checkToken, checkRole("admin"), deleteUser);
 
 module.exports = router;
