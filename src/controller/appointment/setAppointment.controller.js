@@ -13,7 +13,7 @@ const setAppointment = async (req, res) => {
             status
         } = req.body;
 
-        if(!patientId || !doctorId || !dateAndTime){
+        if(!patientId  || !doctorId || !dateAndTime){
             return res.status(400).json({
                 STATUS_CODE: 400,
                 message: "All fields required!",
