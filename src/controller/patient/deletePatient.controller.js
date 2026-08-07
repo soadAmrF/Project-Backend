@@ -1,6 +1,6 @@
 const Patient = require("../../models/patient.model");
 
-const getPatientById = async (req, res) => {
+const deletePatient = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -14,9 +14,7 @@ const getPatientById = async (req, res) => {
     }
 
     
-    const patient = await Patient.findById(id).select(
-      "fullName gender phone bloodGroup medicalNotes createdAt updatedAt",
-    );
+    const patient = await Patient.findById(id);
 
     if (!patient) {
       return res.status(404).json({
@@ -26,14 +24,16 @@ const getPatientById = async (req, res) => {
       });
     }
 
+    
+    await Patient.findByIdAndDelete(id);
+
     return res.status(200).json({
       STATUS_CODE: 200,
       success: true,
-      message: "Patient retrieved successfully!",
-      data: patient,
+      message: "Patient deleted successfully!",
     });
   } catch (err) {
-    console.error("Error fetching patient:", err);
+    console.error("Error deleting patient:", err);
 
     if (err.name === "CastError") {
       return res.status(400).json({
@@ -51,4 +51,4 @@ const getPatientById = async (req, res) => {
   }
 };
 
-module.exports = getPatientById;
+module.exports = deletePatient;
