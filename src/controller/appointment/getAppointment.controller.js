@@ -3,10 +3,11 @@ const Appointment = require("../../models/appointment.model");
 const getAllAppointments = async (req, res) => {
   try {
     const appointments = await Appointment.find()
-      .populate("patientId", "fullName name phone") // أضفنا phone للمريض
+      .populate("patientId", "fullName name phone")
       .populate({
         path: "doctorId",
         select: "specialization fees userId name",
+
         populate: {
           path: "userId",
           select: "fullname phone",
@@ -18,19 +19,19 @@ const getAllAppointments = async (req, res) => {
       const app = appointment.toObject();
 
       const patientName =
-        app.patientId?.fullName || app.patientId?.name || "مريض محذوف";
+        app.patientId?.fullName || app.patientId?.name || "patient deleted";
       const patientPhone = app.patientId?.phone || "-";
 
-      let doctorName = "طبيب محذوف";
+      let doctorName = "doc deleted";
       let doctorPhone = "-";
 
       if (app.doctorId) {
         if (app.doctorId.userId) {
           doctorName =
-            app.doctorId.userId.fullname || app.doctorId.userId.name || "طبيب";
+            app.doctorId.userId.fullname || app.doctorId.userId.name || "doc";
           doctorPhone = app.doctorId.userId.phone || "-";
         } else {
-          doctorName = app.doctorId.name || "طبيب";
+          doctorName = app.doctorId.name || "doc";
         }
       }
 
@@ -48,13 +49,14 @@ const getAllAppointments = async (req, res) => {
       };
     });
 
+
     return res.status(200).json({
       STATUS_CODE: 200,
       message: "Appointments retrieved successfully",
       data,
     });
   } catch (err) {
-    console.error("Error in getAllAppointments:", err);
+
     return res.status(500).json({
       STATUS_CODE: 500,
       message: err.message,
@@ -63,3 +65,4 @@ const getAllAppointments = async (req, res) => {
 };
 
 module.exports = getAllAppointments;
+

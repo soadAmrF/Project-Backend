@@ -13,9 +13,7 @@ const userLogin = async (req, res) => {
     });
   }
 
-  const checkUser = await User.findOne({ name }).select(
-    "+password",
-  );
+  const checkUser = await User.findOne({ name }).select("+password");
 
   if (!checkUser) {
     return res.status(401).json({
@@ -38,9 +36,9 @@ const userLogin = async (req, res) => {
   const secret = process.env.JWT_SECRET;
 
   console.log(checkUser.toObject());
-console.log("name =", checkUser.name);
-console.log("role =", checkUser.role);
-console.log("image =", checkUser.image);
+  console.log("name =", checkUser.name);
+  console.log("role =", checkUser.role);
+  console.log("image =", checkUser.image);
 
   const token = JWT.sign(
     {

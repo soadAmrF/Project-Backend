@@ -15,7 +15,7 @@ const { updateDoctor } = require("../controller/doctors/updateDoctor.controller"
 const checkRole = require("../middleware/checkRole");
 const checkToken = require("../middleware/checkToken");
 
-router.get("/", checkToken, checkRole("admin"), getAllDoctors);
+router.get("/", checkToken, checkRole("admin", "receptionist"), getAllDoctors);
 router.get("/:id", checkToken, getDoctorById);
 router.post("/", checkToken, checkRole("admin"), createDoctor);
 router.put("/:id", checkToken, checkRole("admin"), updateDoctor);
