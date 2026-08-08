@@ -13,6 +13,7 @@ const inventoryRoutes = require("./inventory.routes");
 const inventoryTransactionRoutes = require("./inventoryTransaction.routes");
 const clinicInfoRoutes = require("./clinicInfo.routes");
 const invoiceRoutes = require("./invoice.routes");
+const xrayRoutes = require("./xray.routes");
 
 router.use("/clinic-info", clinicInfoRoutes);
 router.use("/inventory-transactions", inventoryTransactionRoutes);
@@ -26,6 +27,6 @@ router.use("/doctors", doctorRoutes);
 router.use("/patient", patientRoutes);
 router.use("/appointment", appointmentRoutes);
 router.use("/invoice", invoiceRoutes);
-
+router.use("/xray", xrayRoutes);
 
 module.exports = router;

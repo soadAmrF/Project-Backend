@@ -28,7 +28,6 @@ const medicalRecordSchema = new mongoose.Schema(
       maxLength: 500,
     },
 
-    
     prescription: [
       {
         medicineName: {
@@ -39,12 +38,12 @@ const medicalRecordSchema = new mongoose.Schema(
         dosage: {
           type: String,
           required: true,
-          trim: true, 
+          trim: true,
         },
         duration: {
           type: String,
           required: true,
-          trim: true, 
+          trim: true,
         },
         instructions: {
           type: String,
@@ -68,6 +67,35 @@ const medicalRecordSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    X_Ray: [
+      {
+        xrayType: {
+          type: String,
+          required: true,
+          trim: true,
+        },
+        image: {
+          type: String,
+        },
+        status: {
+          type: String,
+          enum: ["Pending", "Completed", "Cancelled"],
+          default: "Pending",
+          required: true,
+        },
+        notes: {
+          type: String,
+          maxLength: 1000,
+        },
+        price: {
+          type: Number,
+          min: 0,
+        },
+        result: {
+          type: String,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
