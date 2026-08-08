@@ -4,6 +4,8 @@ const getAllXrays = require("../controller/Xray/getAllXrays.controller");
 const getXrayById = require("../controller/Xray/getXrayById.controller");
 const updateXray = require("../controller/Xray/updateXray.controller");
 const deleteXray = require("../controller/Xray/deleteXray.controller");
+const checkRole = require("../middleware/checkRole");
+const checkToken = require("../middleware/checkToken");
 const router = express.Router();
 
 router.post("/:medicalRecordId", checkToken, checkRole("admin"), createXray);
