@@ -17,7 +17,7 @@ router.get("/:id", checkToken, getInvoiceById);
 
 router.put("/:id", checkToken, checkRole("admin"), updateInvoice);
 
-router.patch("/:id/cancel", checkToken, cancelInvoice);
+router.delete("/:id/cancel", checkToken, cancelInvoice);
 
 router.get("/", (req, res) => {
   res.send("Invoice route is working");
